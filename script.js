@@ -10,7 +10,7 @@ ctx.font = '50px Georgia';
 
 // mouse interactivity
 let canvasPosition = canvas.getBoundingClientRect();
-const mouse ={
+const mouse = {
     x: canvas.width/2,
     y: canvas.height/2,
     click: false
@@ -29,8 +29,8 @@ playerRight.src = 'fish_swim_right.png';
 
 class Player {
     constructor(){
-        this.x = canvas.width;
-        this.y = canvas.height;
+        this.x = canvas.width/2;
+        this.y = canvas.height/2;
         this.radius = 50;
         this.angle = 0;
         this.frameX =0;
@@ -120,17 +120,16 @@ function handleBubbles(){
     if (gameFrame % 50 == 0){
         bubblesArray.push(new Bubble());
     }
-    for (let i = 0; 1 < bubblesArray.length; i++){
+    for (let i = 0; i < bubblesArray.length; i++){
         bubblesArray[i].update();
         bubblesArray[i].draw();
     }
     for (let i = 0; i < bubblesArray.length; i++){
         if (bubblesArray[i].y < 0 - bubblesArray[i].radius * 2){
             bubblesArray.splice(i, 1);
-        }
-        if (bubblesArray[i]){
+            i--;
             if (bubblesArray[i].distance , bubblesArray[i].radius + player.radius){
-                if (bubblesArray[i].counted){
+                if (!bubblesArray[i].counted){
                     if (bubblesArray[i].sound == 'sound1'){
                         bubblePop1.play();
                     } else {
@@ -139,6 +138,7 @@ function handleBubbles(){
                     score++;
                     bubblesArray[i].counted = true
                     bubblesArray.splice(i, 1);
+                    i--;
                 }
             }
         }
@@ -156,3 +156,7 @@ function animate(){
     requestAnimationFrame(animate);
 }
 animate();
+
+window.addEventListener('resize', function(){
+    canvasPosition = canvas.getBoundingClientRect();
+});
